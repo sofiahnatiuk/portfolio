@@ -1,0 +1,32 @@
+# created by virtualenv automatically
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Django migrations
+*.log
+*.pot
+*.pyc
+*.pyo
+*.sqlite3
+db.sqlite3
+
+# Local environment files
+.env
+
+# Virtual environment
+venv/
+env/
+
+Thumbs.db
+ehthumbs.db
+
+.idea/
+.env
+
