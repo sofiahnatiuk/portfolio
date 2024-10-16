@@ -17,9 +17,6 @@ dist/
 *.sqlite3
 db.sqlite3
 
-# Local environment files
-.env
-
 # Virtual environment
 venv/
 env/

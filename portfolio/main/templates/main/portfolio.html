@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<h1>My GitHub Activity</h1>
+<ul>
+    {% for event in activity %}
+        <li>
+            <strong>{{ event['type'] }}</strong> at
+            <a href="{{ event['repo']['url'] }}">{{ event['repo']['name'] }}</a>
+            on {{ event['created_at'] }}
+        </li>
+    {% empty %}
+        <p>No recent activity found.</p>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
