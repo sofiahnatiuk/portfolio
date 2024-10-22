@@ -9,8 +9,17 @@
 
 <h2>My GitHub Contributions</h2>
 <ul>
-    {% for repo, count in contributions.items %}
-        <li>{{ repo }}: {{ count }} commits</li>
+    {% for repo, data in contributions.items %}
+        <li>
+            <strong>{{ repo }}</strong>: {{ data.commit_count }} commits
+            <ul>
+                {% for date, message in data.commit_messages %}
+                    <li><em>{{ date }}</em>: {{ message }}</li>
+                {% empty %}
+                    <li>No commit messages found.</li>
+                {% endfor %}
+            </ul>
+        </li>
     {% empty %}
         <li>No contributions found.</li>
     {% endfor %}

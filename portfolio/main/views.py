@@ -42,7 +42,11 @@ def get_repository_contributions(username):
             if commits_response.status_code == 200:
                 commits = commits_response.json()
                 for commit in commits:
-                    contributions[repo_name]['commit_messages'].append(commit['commit']['message'])
+                    message = commit['commit']['message']
+                    date = commit['commit']['committer']['date']
+                    contributions[repo_name]['commit_messages'].append((date, message))
+
+                contributions[repo_name]['commit_messages'].sort(key=lambda x: x[0], reverse=True)
 
             if contributions[repo_name]['commit_count'] == 0:
                 contributions[repo_name]['commit_count'] = 0
