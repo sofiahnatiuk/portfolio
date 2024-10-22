@@ -11,7 +11,18 @@ def get_github_activity(username):
     url = f"https://api.github.com/users/{username}/events/public"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
-    return response.json() if response.status_code == 200 else []
+
+    if response.status_code == 200:
+        events = response.json()
+
+        for event in events:
+            created_at_iso = event['created_at']
+            created_at_readable = datetime.fromisoformat(created_at_iso[:-1]).strftime('%B %d, %Y, %I:%M %p')
+            event['created_at'] = created_at_readable
+
+        return events
+    else:
+        return []
 
 
 def get_repository_contributions(username):
