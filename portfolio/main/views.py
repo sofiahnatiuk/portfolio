@@ -33,37 +33,34 @@ def get_repository_contributions(username):
     if repos_response.status_code == 200:
         repos = repos_response.json()
         contributions = {}
+
         for repo in repos:
             repo_name = repo['name']
             contributions[repo_name] = {
                 'commit_count': 0,
                 'commit_messages': []
             }
-            contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/stats/contributors"
-            contrib_response = requests.get(contrib_url, headers=headers)
-
-            if contrib_response.status_code == 200:
-                stats = contrib_response.json()
-                for stat in stats:
-                    if stat['author']['login'] == username:
-                        contributions[repo_name]['commit_count'] = stat['total']
-                        break
 
             commits_url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
             commits_response = requests.get(commits_url, headers=headers)
 
             if commits_response.status_code == 200:
                 commits = commits_response.json()
+                contributions[repo_name]['commit_count'] = len(commits)  # Count total commits
+
                 for commit in commits:
                     message = commit['commit']['message']
-                    date = commit['commit']['committer']['date']
-                    date_readable = datetime.fromisoformat(date[:-1]).strftime('%B %d, %Y, %I:%M %p')
+                    date_iso = commit['commit']['committer']['date']
+
+                    date_readable = datetime.fromisoformat(date_iso[:-1]).strftime('%B %d, %Y, %I:%M %p')
+
                     contributions[repo_name]['commit_messages'].append((date_readable, message))
 
                 contributions[repo_name]['commit_messages'].sort(key=lambda x: x[0], reverse=True)
 
-            if contributions[repo_name]['commit_count'] == 0:
-                contributions[repo_name]['commit_count'] = 0
+            else:
+                print(
+                    f"Failed to fetch commits for {repo_name}: {commits_response.status_code} - {commits_response.text}")
 
         return contributions
     else:
