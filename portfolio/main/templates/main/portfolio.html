@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-
-<h2>My GitHub Contributions</h2>
+<div class="container">
+    <h2>My GitHub Contributions</h2>
 <ul>
     {% for repo, data in contributions.items %}
         <li>
@@ -37,6 +37,8 @@
         <p>No recent activity found.</p>
     {% endfor %}
 </ul>
+
+</div>
 
 </body>
 </html>
