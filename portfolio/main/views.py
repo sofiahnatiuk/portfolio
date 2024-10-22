@@ -13,24 +13,32 @@ def get_github_activity(username):
 
 
 def get_repository_contributions(username):
-    url = f"https://api.github.com/users/{username}/repos"
+    repos_url = f"https://api.github.com/users/{username}/repos"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
-    response = requests.get(url, headers=headers)
+    repos_response = requests.get(repos_url, headers=headers)
 
-    if response.status_code == 200:
-        repos = response.json()
+    if repos_response.status_code == 200:
+        repos = repos_response.json()
         contributions = {}
         for repo in repos:
             repo_name = repo['name']
             contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/stats/contributors"
             contrib_response = requests.get(contrib_url, headers=headers)
+
             if contrib_response.status_code == 200:
                 stats = contrib_response.json()
                 for stat in stats:
                     if stat['author']['login'] == username:
                         contributions[repo_name] = stat['total']
+                if repo_name not in contributions:
+                    contributions[repo_name] = 0
+            else:
+                print(
+                    f"Failed to fetch contributions for repo {repo_name}: {contrib_response.status_code} - {contrib_response.text}")
         return contributions
-    return {}
+    else:
+        print(f"Failed to fetch repositories: {repos_response.status_code} - {repos_response.text}")
+        return {}
 
 
 def portfolio(request):
