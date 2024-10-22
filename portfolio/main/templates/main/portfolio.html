@@ -10,9 +10,9 @@
 <ul>
     {% for event in activity %}
         <li>
-            <strong>{{ event['type'] }}</strong> at
-            <a href="{{ event['repo']['url'] }}">{{ event['repo']['name'] }}</a>
-            on {{ event['created_at'] }}
+            <strong>{{ event.type }}</strong> at
+            <a href="https://github.com/{{ event.repo.name }}">{{ event.repo.name }}</a>
+            on {{ event.created_at }}
         </li>
     {% empty %}
         <p>No recent activity found.</p>
