@@ -22,6 +22,10 @@ def get_repository_contributions(username):
         contributions = {}
         for repo in repos:
             repo_name = repo['name']
+            contributions[repo_name] = {
+                'commit_count': 0,
+                'commit_messages': []
+            }
             contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/stats/contributors"
             contrib_response = requests.get(contrib_url, headers=headers)
 
@@ -29,12 +33,20 @@ def get_repository_contributions(username):
                 stats = contrib_response.json()
                 for stat in stats:
                     if stat['author']['login'] == username:
-                        contributions[repo_name] = stat['total']
-                if repo_name not in contributions:
-                    contributions[repo_name] = 0
-            else:
-                print(
-                    f"Failed to fetch contributions for repo {repo_name}: {contrib_response.status_code} - {contrib_response.text}")
+                        contributions[repo_name]['commit_count'] = stat['total']
+                        break
+
+            commits_url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
+            commits_response = requests.get(commits_url, headers=headers)
+
+            if commits_response.status_code == 200:
+                commits = commits_response.json()
+                for commit in commits:
+                    contributions[repo_name]['commit_messages'].append(commit['commit']['message'])
+
+            if contributions[repo_name]['commit_count'] == 0:
+                contributions[repo_name]['commit_count'] = 0
+
         return contributions
     else:
         print(f"Failed to fetch repositories: {repos_response.status_code} - {repos_response.text}")
