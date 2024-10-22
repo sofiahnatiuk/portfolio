@@ -12,13 +12,6 @@ def get_github_activity(username):
     return response.json() if response.status_code == 200 else []
 
 
-def portfolio(request):
-    username = "sofiahnatiuk"
-    activity = get_github_activity(username)
-    context = {'activity': activity}
-    return render(request, 'main/portfolio.html', context)
-
-
 def get_repository_contributions(username):
     url = f"https://api.github.com/users/{username}/repos"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
@@ -38,3 +31,15 @@ def get_repository_contributions(username):
                         contributions[repo_name] = stat['total']
         return contributions
     return {}
+
+
+def portfolio(request):
+    username = "sofiahnatiuk"
+    activity = get_github_activity(username)
+    contributions = get_repository_contributions(username)
+    context = {'activity': activity,
+               'contributions': contributions,
+               }
+    return render(request, 'main/portfolio.html', context)
+
+
