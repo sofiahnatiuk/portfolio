@@ -1,6 +1,8 @@
 import requests
 from django.shortcuts import render
 import os
+from datetime import datetime
+
 
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 
@@ -44,7 +46,8 @@ def get_repository_contributions(username):
                 for commit in commits:
                     message = commit['commit']['message']
                     date = commit['commit']['committer']['date']
-                    contributions[repo_name]['commit_messages'].append((date, message))
+                    date_readable = datetime.fromisoformat(date[:-1]).strftime('%B %d, %Y, %I:%M %p')
+                    contributions[repo_name]['commit_messages'].append((date_readable, message))
 
                 contributions[repo_name]['commit_messages'].sort(key=lambda x: x[0], reverse=True)
 
