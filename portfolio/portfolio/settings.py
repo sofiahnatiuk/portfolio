@@ -30,7 +30,8 @@ SECURE_SSL_REDIRECT = True  # Redirect all HTTP traffic to HTTPS
 SESSION_COOKIE_SECURE = True  # Ensures the session cookie is only sent over HTTPS
 CSRF_COOKIE_SECURE = True  # Ensures the CSRF token is only sent over HTTPS
 
-ALLOWED_HOSTS = ['13.48.44.158', 'localhost', '127.0.0.1', '13.51.156.255', 's-hnatiuk.online', 'www.s-hnatiuk.online']
+ALLOWED_HOSTS = ['13.48.44.158', 'localhost', '127.0.0.1', '13.51.156.255', 's-hnatiuk.online', 'www.s-hnatiuk.online',
+                 '13.60.41.63']
 
 
 # Application definition
