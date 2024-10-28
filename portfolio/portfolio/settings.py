@@ -33,7 +33,7 @@ DEBUG = True
 #ALLOWED_HOSTS = ['13.48.44.158', 'localhost', '127.0.0.1', '13.51.156.255', 's-hnatiuk.online', 'www.s-hnatiuk.online',
  #                '13.60.41.63']
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '13.60.41.63']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '13.60.41.63', '13.51.197.173']
 # Application definition
 
 INSTALLED_APPS = [
